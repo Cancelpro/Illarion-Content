@@ -653,11 +653,11 @@ function M.realmAllowsFarming(pos)
 end
 
 local staticTools = {
-    {id = 119, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair"}, builderSkills = {"pottery", "cookingAndBaking"}, purpose = "baking"}, --baking oven
-    {id = 120, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair"}, builderSkills = {"pottery", "cookingAndBaking"}, purpose = "baking"}, --baking oven
+    {id = 119, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair", "Cadomyr"}, builderSkills = {"pottery", "cookingAndBaking"}, purpose = "baking"}, --baking oven
+    {id = 120, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair", "Cadomyr"}, builderSkills = {"pottery", "cookingAndBaking"}, purpose = "baking"}, --baking oven
     {id = 305, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair", "Cadomyr"}, builderSkills = {"pottery", "cookingAndBaking"}, purpose = "grilling"}, --smoking oven
     {id = 304, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair", "Cadomyr"}, builderSkills = {"pottery", "cookingAndBaking"}, purpose = "grilling"}, --smoking oven
-    {id = 3581, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair"}, builderSkills = {"smithing", "cookingAndBaking"}, purpose = "cooking"}, --kettle
+    {id = 3581, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair", "Cadomyr"}, builderSkills = {"smithing", "cookingAndBaking"}, purpose = "cooking"}, --kettle
     {id = 250, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair"}, builderSkills = {"mining", "farming"}, purpose = "milling"}, --millstone
     {id = 339, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair"}, builderSkills = {"carpentry", "brewing"}, purpose = "brewing"}, --wine barrel
     {id = 1410, value = 1, realms = {"Outlaw", "Runewick", "Troll's Haven", "Galmair"}, builderSkills = {"carpentry", "brewing"}, purpose = "brewing"}, --wine barrel
@@ -696,7 +696,7 @@ local staticTools = {
     {id = 1388, value = 1, realms = {"Outlaw", "Galmair", "Troll's Haven", "Runewick", "Cadomyr"}, builderSkills = {"mining", "cookingAndBaking"}, purpose = "grilling"}, --grill
     {id = 1389, value = 1, realms = {"Outlaw", "Galmair", "Troll's Haven", "Runewick", "Cadomyr"}, builderSkills = {"mining", "cookingAndBaking"}, purpose = "grilling"}, --grill
     {id = 1390, value = 1, realms = {"Outlaw", "Galmair", "Troll's Haven", "Runewick", "Cadomyr"}, builderSkills = {"mining", "cookingAndBaking"}, purpose = "grilling"}, --grill
-    {id = 1386, value = 1, realms = {"Outlaw", "Galmair", "Troll's Haven", "Runewick"}, builderSkills = {"mining", "cookingAndBaking"}, purpose = "cooking"}, -- oven, kettle alternative
+    {id = 1386, value = 1, realms = {"Outlaw", "Galmair", "Troll's Haven", "Runewick", "Cadomyr"}, builderSkills = {"mining", "cookingAndBaking"}, purpose = "cooking"}, -- oven, kettle alternative
 }
 
 local function isStaticTool(productId)
