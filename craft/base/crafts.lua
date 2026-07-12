@@ -260,9 +260,13 @@ local function isMagicCraft(leadSkill)
     return false
 end
 
+
+
 function Craft:showDialog(user, source)
 
     local allowCraft, checkForFallbackCraft = self:allowCrafting(user, source)
+
+
 
     if not allowCraft then
         if checkForFallbackCraft and self.fallbackCraft then
@@ -271,6 +275,8 @@ function Craft:showDialog(user, source)
 
         return
     end
+
+    
 
     local callback = function(dialog)
         local result = dialog:getResult()
@@ -295,7 +301,8 @@ function Craft:showDialog(user, source)
             return self:getIngredientLookAt(user, productId, ingredientId)
         elseif result == CraftingDialog.playerCraftingComplete then
             local productId = dialog:getCraftableId()
-            local skillGain = self:craftItem(user, productId)
+            local craftingStationBonus = common.GetCraftingStationQualityBonus(source)
+            local skillGain = self:craftItem(user, productId, craftingStationBonus)
             if skillGain then
                 self:refreshDialog(dialog, user)
             end
@@ -1015,7 +1022,7 @@ function Craft:generateRarity(user, rareIngredientBonus, quality, maxStack, item
 
 end
 
-function Craft:generateQuality(user, product, toolItem, rareIngredientBonus)
+function Craft:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStationBonus)
 
     if self.npcCraft then
         return 999
@@ -1034,7 +1041,7 @@ function Craft:generateQuality(user, product, toolItem, rareIngredientBonus)
     end
 
     local meanQuality = 5
-    meanQuality = meanQuality*(1+common.GetAttributeBonusHigh(leadAttribValue)+common.GetQualityBonusStandard(toolItem))+gemBonus/100 --Apply boni of dexterity, tool quality and gems.
+    meanQuality = meanQuality*(1+common.GetAttributeBonusHigh(leadAttribValue)+common.GetQualityBonusStandard(toolItem))+gemBonus+craftingStationBonus/100 --Apply boni of dexterity, tool quality and gems.
     meanQuality = common.Limit(meanQuality, 1, 8.5) --Limit to a reasonable maximum to avoid overflow ("everything quality 9"). The value here needs unnatural attributes.
     local rarityBonus = (rareIngredientBonus - 1) * (0.5 / 3)
     meanQuality = meanQuality + rarityBonus -- Rare ingredients allow you to surpass the maximum to get a mean of 9 if all ingredients are unique
@@ -1053,6 +1060,9 @@ function Craft:generateQuality(user, product, toolItem, rareIngredientBonus)
     return common.calculateItemQualityDurability(quality, durability)
 
 end
+
+
+
 
 function Craft:locationFine(user)
 
@@ -1131,7 +1141,7 @@ function Craft:turnToTool(user)
     return false
 end
 
-function Craft:craftItem(user, productId)
+function Craft:craftItem(user, productId, craftingStationBonus)
     local product = self.products[productId]
 
     if not product then
@@ -1204,7 +1214,7 @@ local function checkForRemnantException(product, exceptions)
 end
 
 
-function Craft:createItem(user, productId, toolItem)
+function Craft:createItem(user, productId, toolItem, craftingStationBonus)
     local product = self.products[productId]
 
     if not product then
@@ -1278,7 +1288,7 @@ function Craft:createItem(user, productId, toolItem)
 
     rareIngredientBonus = rareIngredientBonus/totalIngredients --Now we have the average rareness of all ingredients used
 
-    local quality = self:generateQuality(user, product, toolItem, rareIngredientBonus)
+    local quality = self:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStationBonus)
 
     local itemStats = world:getItemStatsFromId(product.item)
     if itemStats.MaxStack == 1 then

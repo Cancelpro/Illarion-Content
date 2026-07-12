@@ -2465,6 +2465,17 @@ function M.GetQualityBonus(item, range)
 
 end
 
+function M.GetCraftingStationQualityBonus(item)
+
+    local qualityBonusString = item:getData("qualityBonus")
+    if qualityBonusString == "" then
+        return 0
+    end
+
+    return tonumber(qualityBonusString)
+
+end
+
 function M.GetQualityBonusStandard(item)
     return M.GetQualityBonus(item, 0.1)
 end
