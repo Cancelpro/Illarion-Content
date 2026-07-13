@@ -1023,7 +1023,6 @@ function Craft:generateRarity(user, rareIngredientBonus, quality, maxStack, item
 end
 
 function Craft:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStationBonus)
-
     if self.npcCraft then
         return 999
     end
@@ -1171,7 +1170,7 @@ function Craft:craftItem(user, productId, craftingStationBonus)
     end
 
     if self:checkMaterial(user, productId) then
-        self:createItem(user, productId, toolItem)
+        self:createItem(user, productId, toolItem, craftingStationBonus)
 
         if not self.npcCraft then
             shared.toolBreaks(user, toolItem, product:getCraftingTime(skill))

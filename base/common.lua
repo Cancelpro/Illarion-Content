@@ -2467,12 +2467,12 @@ end
 
 function M.GetCraftingStationQualityBonus(item)
 
-    local qualityBonusString = item:getData("qualityBonus")
-    if qualityBonusString == "" then
-        return 0
+    local qualityBonus = tonumber(item:getData("qualityBonus"))
+    if qualityBonus ~= nil then
+        return qualityBonus
     end
 
-    return tonumber(qualityBonusString)
+    return 0
 
 end
 
