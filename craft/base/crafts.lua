@@ -301,8 +301,7 @@ function Craft:showDialog(user, source)
             return self:getIngredientLookAt(user, productId, ingredientId)
         elseif result == CraftingDialog.playerCraftingComplete then
             local productId = dialog:getCraftableId()
-            local craftingStationBonus = common.GetCraftingStationQualityBonus(source)
-            local skillGain = self:craftItem(user, productId, craftingStationBonus)
+            local skillGain = self:craftItem(user, productId, source)
             if skillGain then
                 self:refreshDialog(dialog, user)
             end
@@ -1022,12 +1021,13 @@ function Craft:generateRarity(user, rareIngredientBonus, quality, maxStack, item
 
 end
 
-function Craft:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStationBonus)
+function Craft:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStation)
     if self.npcCraft then
         return 999
     end
 
     local gemBonus = tonumber(self:getCurrentGemBonus(user))
+    local craftingStationBonus = common.GetCraftingStationQualityBonus(craftingStation)
     local skill = self.leadSkill
     local leadAttribNames = common.GetLeadAttributeName(skill)
     local leadAttribValue
@@ -1140,7 +1140,7 @@ function Craft:turnToTool(user)
     return false
 end
 
-function Craft:craftItem(user, productId, craftingStationBonus)
+function Craft:craftItem(user, productId, craftingStation)
     local product = self.products[productId]
 
     if not product then
@@ -1170,7 +1170,7 @@ function Craft:craftItem(user, productId, craftingStationBonus)
     end
 
     if self:checkMaterial(user, productId) then
-        self:createItem(user, productId, toolItem, craftingStationBonus)
+        self:createItem(user, productId, toolItem, craftingStation)
 
         if not self.npcCraft then
             shared.toolBreaks(user, toolItem, product:getCraftingTime(skill))
@@ -1213,7 +1213,7 @@ local function checkForRemnantException(product, exceptions)
 end
 
 
-function Craft:createItem(user, productId, toolItem, craftingStationBonus)
+function Craft:createItem(user, productId, toolItem, craftingStation)
     local product = self.products[productId]
 
     if not product then
@@ -1287,7 +1287,7 @@ function Craft:createItem(user, productId, toolItem, craftingStationBonus)
 
     rareIngredientBonus = rareIngredientBonus/totalIngredients --Now we have the average rareness of all ingredients used
 
-    local quality = self:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStationBonus)
+    local quality = self:generateQuality(user, product, toolItem, rareIngredientBonus, craftingStation)
 
     local itemStats = world:getItemStatsFromId(product.item)
     if itemStats.MaxStack == 1 then
